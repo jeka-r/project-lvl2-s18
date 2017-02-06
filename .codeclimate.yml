@@ -6,3 +6,7 @@ engines:
     checks:
       import/no-unresolved:
         enabled: false
+ratings:
+  paths:
+  - "**.js"
+exclude_paths: []
