@@ -1,13 +1,16 @@
-install: install-deps install-flow-typed
+install: install-deps
 
 run:
-	npm run babel-node -- 'src/bin/hexlet.js' 10
+	npm run babel-node -- src/bin/gendiff.js
+
+run-h:
+	npm run babel-node -- src/bin/gendiff.js -h
+
+run--help:
+	npm run babel-node -- src/bin/gendiff.js --help
 
 install-deps:
 	yarn
-
-install-flow-typed:
-	npm run flow-typed install
 
 build:
 	rm -rf dist
@@ -15,9 +18,6 @@ build:
 
 test:
 	npm test
-
-check-types:
-	npm run flow
 
 lint:
 	npm run eslint -- src test

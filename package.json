@@ -1,50 +1,41 @@
 {
-  "name": "javascript-package",
-  "version": "0.0.1",
-  "description": "",
+  "name": "project-lvl2-s18",
+  "version": "0.1.0",
+  "description": "calculator of differences",
   "main": "dist/index.js",
   "bin": {
-    "hexlet": "dist/bin/hexlet.js"
+    "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
     "test": "jest",
     "babel-node": "babel-node",
-    "flow": "flow",
-    "flow-typed": "flow-typed",
-    "gulp": "gulp",
     "eslint": "eslint",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hexlet-boilerplates/javascript-package.git"
+    "url": "git+https://github.com/jeka-r/project-lvl2-s18.git"
   },
-  "author": "Kirill Mokevnin",
+  "author": "Evgeniy Radzivonchik",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hexlet-boilerplates/javascript-package/issues"
+    "url": "https://github.com/jeka-r/project-lvl2-s18/issues"
   },
-  "homepage": "https://github.com/hexlet-boilerplates/javascript-package#readme",
+  "homepage": "https://github.com/jeka-r/project-lvl2-s18#readme",
   "dependencies": {
-    "gulp": "*"
+    "commander": "*"
   },
   "devDependencies": {
-    "debug": "*",
     "babel-cli": "*",
     "babel-core": "*",
     "babel-eslint": "*",
-    "babel-plugin-syntax-flow": "*",
-    "babel-plugin-transform-flow-strip-types": "*",
     "babel-plugin-transform-runtime": "*",
     "babel-preset-env": "*",
     "babel-preset-stage-0": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
-    "eslint-plugin-flowtype": "*",
     "eslint-plugin-import": "*",
-    "flow-bin": "^0.37",
-    "flow-typed": "*",
     "jest": "*"
   }
 }

@@ -1,9 +1,1 @@
-# javascript-package
-
-
-
-## Setup
-
-```
-make install
-```
+# project-lvl2-s18
