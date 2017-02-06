@@ -1,6 +1,6 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "calculator of differences",
   "main": "dist/index.js",
   "bin": {
