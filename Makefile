@@ -1,7 +1,7 @@
 install: install-deps
 
 run:
-	npm run babel-node -- src/bin/gendiff.js
+	npm run babel-node -- src/bin/gendiff.js src/before.json src/after.json
 
 run-h:
 	npm run babel-node -- src/bin/gendiff.js -h
