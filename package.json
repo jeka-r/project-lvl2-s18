@@ -1,8 +1,8 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "calculator of differences-project-Hexlet",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
   },
