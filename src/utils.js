@@ -1,24 +1,24 @@
-export function stringToAssociativeArray(str) {
-  const arrayAcc = new Map();
-  if (str.length === 0) {
-    return arrayAcc;
-  }
-  const arr = str.replace(/ |{|}|"|\n/g, '').split(',');
-
-  return arr.reduce((acc, item) => {
-    const tempArr = item.split(':');
-    acc.set(tempArr[0], tempArr[1]);
-    return acc;
-  }, arrayAcc);
-}
-
-export function associativeArrayToString(arr) {
-  const keys = [...arr.keys()];
-
-  const str = keys.reduce((acc, item) => {
-    const newAcc = `${acc}${item}: ${arr.get(item)}\n`;
-    return newAcc;
+export default (arr) => {
+  const str = arr.reduce((acc, item) => {
+    const keys = [...item.keys()];
+    const newAcc = keys.reduce((acum, element) => {
+      if (element === 'status') {
+        const status = item.get(element);
+        if (status === 'removed') {
+          return `${acum}  - `;
+        }
+        if (status === 'added') {
+          return `${acum}  + `;
+        }
+        return `${acum}    `;
+      }
+      if (element === 'key') {
+        return `${acum}${item.get(element)}: `;
+      }
+      return `${acum}${item.get(element)}`;
+    }, acc);
+    return `${newAcc}\n`;
   }, '');
-
-  return `{\n${str}}`;
-}
+  const result = (str.length === 0) ? '{}' : `{\n${str}}`;
+  return result;
+};

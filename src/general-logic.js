@@ -1,36 +1,45 @@
-import { stringToAssociativeArray, associativeArrayToString } from './utils';
+import ArrayToString from './utils';
 
-export default (before = '', after = '') => {
-  const arrAcc = new Map();
-  const beforeData = stringToAssociativeArray(before);
-  const afterData = stringToAssociativeArray(after);
+export default (beforeData, afterData) => {
   const keysBeforeData = [...beforeData.keys()];
-
   const interimResult = keysBeforeData.reduce((acc, item) => {
+    const lineA = new Map();
+    const lineB = new Map();
     if (!afterData.has(item)) {
-      acc.set(`  - ${item}`, beforeData.get(item));
-      return acc;
+      lineA.set('status', 'removed');
+      lineA.set('key', item);
+      lineA.set('value', beforeData.get(item));
+      return [...acc, lineA];
     }
     if (beforeData.get(item) !== afterData.get(item)) {
-      acc.set(`  + ${item}`, afterData.get(item));
-      acc.set(`  - ${item}`, beforeData.get(item));
+      lineA.set('status', 'added');
+      lineA.set('key', item);
+      lineA.set('value', afterData.get(item));
+      lineB.set('status', 'removed');
+      lineB.set('key', item);
+      lineB.set('value', beforeData.get(item));
       afterData.delete(item);
-      return acc;
+      return [...acc, lineA, lineB];
     }
-    acc.set(`    ${item}`, beforeData.get(item));
+    lineA.set('status', 'no change');
+    lineA.set('key', item);
+    lineA.set('value', beforeData.get(item));
     afterData.delete(item);
-    return acc;
-  }, arrAcc);
+    return [...acc, lineA];
+  }, []);
 
   let finalResult;
   if (afterData.size > 0) {
     const keysAfterData = [...afterData.keys()];
     finalResult = keysAfterData.reduce((acc, item) => {
-      acc.set(`  + ${item}`, afterData.get(item));
-      return acc;
+      const lineA = new Map();
+      lineA.set('status', 'added');
+      lineA.set('key', item);
+      lineA.set('value', afterData.get(item));
+      return [...acc, lineA];
     }, interimResult);
   } else {
     finalResult = interimResult;
   }
-  return associativeArrayToString(finalResult);
+  return ArrayToString(finalResult);
 };
