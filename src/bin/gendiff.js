@@ -6,7 +6,7 @@ import genDiff from '../general-logic';
 const program = commander;
 
 program
-  .version('0.2.0')
+  .version('0.2.6')
   .usage('[options] <first_config> <second_config>')
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'Output format', 'default')
