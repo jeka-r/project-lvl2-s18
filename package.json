@@ -1,6 +1,6 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "calculator of differences-project-Hexlet",
   "main": "dist/index.js",
   "bin": {
@@ -33,6 +33,8 @@
     "babel-plugin-transform-runtime": "*",
     "babel-preset-env": "*",
     "babel-preset-stage-0": "*",
+    "babel-preset-es2015": "*",
+    "babel-plugin-add-module-exports": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
     "eslint-plugin-import": "*",
