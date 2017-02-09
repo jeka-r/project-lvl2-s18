@@ -1,5 +1,7 @@
 import diff from '../general-logic';
 
+const set = (acc, key, val) => ({ ...acc, [key]: val });
+
 const stringToAssociativeArray = (str) => {
   const arrayAcc = new Map();
   if (str.length === 0) {
@@ -8,9 +10,8 @@ const stringToAssociativeArray = (str) => {
   const arr = str.replace(/ |{|}|"|\n/g, '').split(',');
   const result = arr.reduce((acc, item) => {
     const tempArr = item.split(':');
-    acc.set(tempArr[0], tempArr[1]);
-    return acc;
-  }, arrayAcc);
+    return set(acc, tempArr[0], tempArr[1]);
+  }, {});
   return result;
 };
 

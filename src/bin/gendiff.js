@@ -1,26 +1,20 @@
 #!/usr/bin/env node
-import fs from 'fs';
-import endswith from 'lodash.endswith';
+
 import commander from 'commander';
-import jsonParser from '../parsers/json-parser';
+import selector from '../selector';
 
 const program = commander;
 
 program
   .version('0.2.7')
-  .usage('[options] <first_config> <second_config>')
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'Output format', 'default')
-  .arguments('<cmd1> <cmd2>');
+  .arguments('<first_config> <second_config>');
 
 program.parse(process.argv);
 
 if (program.args[1] && program.args[0]) {
-  const before = fs.readFileSync(program.args[0], 'utf8');
-  const after = fs.readFileSync(program.args[1], 'utf8');
-  if (endswith(program.args[0], 'json') && endswith(program.args[1], 'json')) {
-    console.log(jsonParser(before, after));
-  }
+  selector(program.args[0], program.args[1]);
 } else {
-  console.error('no correct arguments given!');
+  console.log('no correct arguments given!');
 }

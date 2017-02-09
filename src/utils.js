@@ -1,9 +1,9 @@
 export default (arr) => {
   const str = arr.reduce((acc, item) => {
-    const keys = [...item.keys()];
+    const keys = Object.keys(item);
     const newAcc = keys.reduce((acum, element) => {
       if (element === 'status') {
-        const status = item.get(element);
+        const status = item[element];
         if (status === 'removed') {
           return `${acum}  - `;
         }
@@ -13,9 +13,9 @@ export default (arr) => {
         return `${acum}    `;
       }
       if (element === 'key') {
-        return `${acum}${item.get(element)}: `;
+        return `${acum}${item[element]}: `;
       }
-      return `${acum}${item.get(element)}`;
+      return `${acum}${item[element]}`;
     }, acc);
     return `${newAcc}\n`;
   }, '');

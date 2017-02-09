@@ -1,7 +1,10 @@
 install: install-deps
 
-run:
+runjson:
 	npm run babel-node -- src/bin/gendiff.js __tests__/sampleFiles/before.json __tests__/sampleFiles/after.json
+
+runyml:
+		npm run babel-node -- src/bin/gendiff.js __tests__/sampleFiles/before.yml __tests__/sampleFiles/after.yml
 
 run-h:
 	npm run babel-node -- src/bin/gendiff.js -h
