@@ -1,4 +1,7 @@
-export default (arr) => {
+import yaml from 'js-yaml';
+import ini from 'ini-config-parser';
+
+const arrToStr = (arr) => {
   const str = arr.reduce((acc, item) => {
     const keys = Object.keys(item);
     const newAcc = keys.reduce((acum, element) => {
@@ -21,4 +24,14 @@ export default (arr) => {
   }, '');
   const result = (str.length === 0) ? '{}' : `{\n${str}}`;
   return result;
+};
+
+export default (type) => {
+  const parsers = {
+    json: JSON.parse,
+    yml: yaml.safeLoad,
+    ini: ini.parse,
+    txt: arrToStr,
+  };
+  return parsers[type];
 };

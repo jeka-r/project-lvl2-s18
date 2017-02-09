@@ -1,25 +1,24 @@
 import _union from 'lodash.union';
 import _trimstart from 'lodash.trimstart';
-import arrayToString from './parsers/arrToStr';
-import jsonToArr from './parsers/jsonToArr';
-import ymlToArr from './parsers/ymlToArr';
-import iniToArr from './parsers/iniToArr';
+import getParser from '../src/parsers';
 import { getFileData, getType } from './file-system';
 
 export default (pathBefore, pathAfter) => {
   const dataBefore = getFileData(pathBefore);
   const dataAfter = getFileData(pathAfter);
+
   const type = _trimstart(getType(pathBefore, pathAfter), '.');
-  const parsers = {
-    json: jsonToArr,
-    yml: ymlToArr,
-    ini: iniToArr,
-  };
-  const preparedDataBefore = parsers[type](dataBefore);
-  const preparedDataAfter = parsers[type](dataAfter);
+
+  const parser = getParser(type);
+
+  const preparedDataBefore = parser(dataBefore);
+  const preparedDataAfter = parser(dataAfter);
+
   const keysBeforeData = Object.keys(preparedDataBefore);
   const keysAfterData = Object.keys(preparedDataAfter);
+
   const unionKeys = _union(keysBeforeData, keysAfterData);
+
   const result = unionKeys.reduce((acc, item) => {
     if (!preparedDataAfter[item]) {
       const alfa = {
@@ -57,5 +56,5 @@ export default (pathBefore, pathAfter) => {
     };
     return [...acc, epsilon];
   }, []);
-  return arrayToString(result);
+  return getParser('txt')(result);
 };
