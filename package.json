@@ -1,6 +1,6 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "calculator of differences-project-Hexlet",
   "main": "dist/index.js",
   "bin": {
@@ -26,6 +26,7 @@
   "dependencies": {
     "commander": "*",
     "lodash.union": "*",
+    "lodash.trimstart": "*",
     "lodash.compact": "*"
   },
   "devDependencies": {

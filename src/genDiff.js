@@ -1,4 +1,5 @@
 import _union from 'lodash.union';
+import _trimstart from 'lodash.trimstart';
 import arrayToString from './parsers/arrToStr';
 import jsonToArr from './parsers/jsonToArr';
 import ymlToArr from './parsers/ymlToArr';
@@ -7,18 +8,13 @@ import { getFileData, getType } from './file-system';
 export default (pathBefore, pathAfter) => {
   const dataBefore = getFileData(pathBefore);
   const dataAfter = getFileData(pathAfter);
-
-  let preparedDataBefore;
-  let preparedDataAfter;
-  const type = getType(pathBefore, pathAfter);
-  if (type === '.json') {
-    preparedDataBefore = jsonToArr(dataBefore);
-    preparedDataAfter = jsonToArr(dataAfter);
-  }
-  if (type === '.yml') {
-    preparedDataBefore = ymlToArr(dataBefore);
-    preparedDataAfter = ymlToArr(dataAfter);
-  }
+  const type = _trimstart(getType(pathBefore, pathAfter), '.');
+  const parsers = {
+    json: jsonToArr,
+    yml: ymlToArr,
+  };
+  const preparedDataBefore = parsers[type](dataBefore);
+  const preparedDataAfter = parsers[type](dataAfter);
   const keysBeforeData = Object.keys(preparedDataBefore);
   const keysAfterData = Object.keys(preparedDataAfter);
   const unionKeys = _union(keysBeforeData, keysAfterData);
