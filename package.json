@@ -1,6 +1,6 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "calculator of differences-project-Hexlet",
   "main": "dist/index.js",
   "bin": {
