@@ -1,6 +1,6 @@
 {
   "name": "project-lvl2-s18",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "calculator of differences-project-Hexlet",
   "main": "dist/index.js",
   "bin": {
@@ -25,7 +25,8 @@
   "homepage": "https://github.com/jeka-r/project-lvl2-s18#readme",
   "dependencies": {
     "commander": "*",
-    "lodash.union": "*"
+    "lodash.union": "*",
+    "lodash.compact": "*"
   },
   "devDependencies": {
     "babel-cli": "*",
