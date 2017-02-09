@@ -6,6 +6,9 @@ runjson:
 runyml:
 		npm run babel-node -- src/bin/gendiff.js __tests__/sampleFiles/before.yml __tests__/sampleFiles/after.yml
 
+runini:
+		npm run babel-node -- src/bin/gendiff.js __tests__/sampleFiles/before.ini __tests__/sampleFiles/after.ini
+
 run-h:
 	npm run babel-node -- src/bin/gendiff.js -h
 

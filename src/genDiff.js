@@ -3,6 +3,7 @@ import _trimstart from 'lodash.trimstart';
 import arrayToString from './parsers/arrToStr';
 import jsonToArr from './parsers/jsonToArr';
 import ymlToArr from './parsers/ymlToArr';
+import iniToArr from './parsers/iniToArr';
 import { getFileData, getType } from './file-system';
 
 export default (pathBefore, pathAfter) => {
@@ -12,6 +13,7 @@ export default (pathBefore, pathAfter) => {
   const parsers = {
     json: jsonToArr,
     yml: ymlToArr,
+    ini: iniToArr,
   };
   const preparedDataBefore = parsers[type](dataBefore);
   const preparedDataAfter = parsers[type](dataAfter);
