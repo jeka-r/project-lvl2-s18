@@ -1,5 +1,5 @@
 import _union from 'lodash.union';
-import ArrayToString from './utils';
+import arrayToString from '../src/parsers/arrToStr';
 
 
 export default (beforeData, afterData) => {
@@ -35,5 +35,5 @@ export default (beforeData, afterData) => {
     lineA.value = beforeData[item];
     return [...acc, lineA];
   }, []);
-  return ArrayToString(result);
+  return arrayToString(result);
 };

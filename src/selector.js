@@ -1,19 +1,26 @@
 import fs from 'fs';
 import path from 'path';
-import jsonParser from './parsers/json-parser';
-import ymlParser from './parsers/yml-parser';
+import genDiff from './genDiff';
+import jsonToArr from './parsers/jsonToArr';
+import ymlToArr from './parsers/ymlToArr';
 
 export default (before, after) => {
   const extBefore = path.extname(before);
   const extAfter = path.extname(after);
   const dataBefore = fs.readFileSync(before, 'utf8');
   const dataAfter = fs.readFileSync(after, 'utf8');
+  let preparedDataBefore;
+  let preparedDataAfter;
 
   if (extBefore === '.json' && extAfter === '.json') {
-    return console.log(jsonParser(dataBefore, dataAfter));
+    preparedDataBefore = jsonToArr(dataBefore);
+    preparedDataAfter = jsonToArr(dataAfter);
+    return console.log(genDiff(preparedDataBefore, preparedDataAfter));
   }
   if (extBefore === '.yml' && extAfter === '.yml') {
-    return console.log(ymlParser(dataBefore, dataAfter));
+    preparedDataBefore = ymlToArr(dataBefore);
+    preparedDataAfter = ymlToArr(dataAfter);
+    return console.log(genDiff(preparedDataBefore, preparedDataAfter));
   }
   return 'no correct arguments given!';
 };

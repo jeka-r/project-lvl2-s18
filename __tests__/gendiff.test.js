@@ -1,4 +1,4 @@
-import genDiff from '../src/general-logic';
+import genDiff from '../src/genDiff';
 
 test('compare differences #1', () => {
   const result = '{}';
