@@ -1,7 +1,7 @@
 import _union from 'lodash.union';
-import arrayToString from '../src/parsers/arrToStr';
-import jsonToArr from '../src/parsers/jsonToArr';
-import ymlToArr from '../src/parsers/ymlToArr';
+import arrayToString from './parsers/arrToStr';
+import jsonToArr from './parsers/jsonToArr';
+import ymlToArr from './parsers/ymlToArr';
 import { getFileData, getType } from './file-system';
 
 export default (pathBefore, pathAfter) => {
