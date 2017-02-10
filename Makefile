@@ -1,5 +1,7 @@
 install: install-deps
 
+runall: runjson runyml runini
+
 runjson:
 	npm run babel-node -- src/bin/gendiff.js __tests__/sampleFiles/before.json __tests__/sampleFiles/after.json
 

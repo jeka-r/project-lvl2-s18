@@ -1,13 +1,36 @@
 import _union from 'lodash.union';
-import _trimstart from 'lodash.trimstart';
 import getParser from '../src/parsers';
-import { getFileData, getType } from './file-system';
+import { getFileData, getType } from './filesystem';
+
+const arrToStr = (arr) => {
+  const str = arr.reduce((acc, item) => {
+    const keys = Object.keys(item);
+    const newAcc = keys.reduce((acum, element) => {
+      if (element === 'status') {
+        const status = item[element];
+        if (status === 'removed') {
+          return `${acum}  - `;
+        }
+        if (status === 'added') {
+          return `${acum}  + `;
+        }
+        return `${acum}    `;
+      }
+      if (element === 'key') {
+        return `${acum}${item[element]}: `;
+      }
+      return `${acum}${item[element]}`;
+    }, acc);
+    return `${newAcc}\n`;
+  }, '');
+  return (str.length === 0) ? '{}' : `{\n${str}}`;
+};
 
 export default (pathBefore, pathAfter) => {
   const dataBefore = getFileData(pathBefore);
   const dataAfter = getFileData(pathAfter);
 
-  const type = _trimstart(getType(pathBefore, pathAfter), '.');
+  const type = getType(pathBefore, pathAfter);
 
   const parser = getParser(type);
 
@@ -21,40 +44,35 @@ export default (pathBefore, pathAfter) => {
 
   const result = unionKeys.reduce((acc, item) => {
     if (!preparedDataAfter[item]) {
-      const alfa = {
+      return [...acc, {
         status: 'removed',
         key: item,
         value: preparedDataBefore[item],
-      };
-      return [...acc, alfa];
+      }];
     }
     if (!preparedDataBefore[item]) {
-      const beta = {
+      return [...acc, {
         status: 'added',
         key: item,
         value: preparedDataAfter[item],
-      };
-      return [...acc, beta];
+      }];
     }
     if (preparedDataBefore[item] !== preparedDataAfter[item]) {
-      const gamma = {
+      return [...acc, {
         status: 'added',
         key: item,
         value: preparedDataAfter[item],
-      };
-      const delta = {
+      }, {
         status: 'removed',
         key: item,
         value: preparedDataBefore[item],
-      };
-      return [...acc, gamma, delta];
+      }];
     }
-    const epsilon = {
+    return [...acc, {
       status: 'no change',
       key: item,
       value: preparedDataBefore[item],
-    };
-    return [...acc, epsilon];
+    }];
   }, []);
-  return getParser('txt')(result);
+  return arrToStr(result);
 };
