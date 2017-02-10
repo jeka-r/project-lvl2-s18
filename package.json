@@ -25,9 +25,10 @@
   "homepage": "https://github.com/jeka-r/project-lvl2-s18#readme",
   "dependencies": {
     "commander": "*",
-    "ini-config-parser": "*",
+    "ini": "*",
     "js-yaml": "*",
     "lodash.union": "*",
+    "lodash.repeat": "*",
     "lodash.trimstart": "*"
   },
   "devDependencies": {

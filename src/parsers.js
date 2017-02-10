@@ -1,9 +1,9 @@
 import yaml from 'js-yaml';
-import ini from 'ini-config-parser';
+import ini from 'ini';
 
 const parsers = {
   json: JSON.parse,
-  yml: yaml.safeLoad,
+  yml: yaml.load,
   ini: ini.parse,
 };
 
