@@ -1,5 +1,5 @@
 import _union from 'lodash.union';
-import getParser from '../src/parsers';
+import getParser from './parsers';
 import { getFileData, getType } from './filesystem';
 
 const arrToStr = (arr) => {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import commander from 'commander';
-import genDiff from '../../src';
+import genDiff from '../../';
 
 commander
   .version('0.2.7')
