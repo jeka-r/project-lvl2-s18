@@ -107,17 +107,25 @@ test('compare of INI recursive format differences', () => {
         setting1: Value 1
       - setting2: 200
         setting3: true
-      - setting6: {"key":"value"}
+      - setting6: {
+            "key": "value"
+        }
       + setting4: blah blah
-      + setting5: {"key5":"value5"}
+      + setting5: {
+            "key5": "value5"
+        }
     }
     group1: {
       + baz: bars
       - baz: bas
         foo: bar
     }
-  - group2: {"abc":"12345"}
-  + group3: {"fee":"100500"}
+  - group2: {
+        "abc": "12345"
+    }
+  + group3: {
+        "fee": "100500"
+    }
 }`;
   const path1 = './__tests__/samplefiles/before-recur.ini';
   const path2 = './__tests__/samplefiles/after-recur.ini';

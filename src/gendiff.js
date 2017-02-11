@@ -11,13 +11,19 @@ const arrToStr = (arr) => {
       if (item.children) {
         return `${acc}    ${item.key}: {\n${build(item.children, _repeat(tab, 5))}${tab.slice(1)}    }\n`;
       }
-      if (item.status === 'added') {
-        const newValueStr = `${tab.slice(1)}  + ${item.key}: ${item.value}\n`;
-        return `${acc}${newValueStr}`;
+      const sign = (item.status === 'added') ? '  + ' : '  - ';
+
+      if (item.value instanceof Object) {
+        const objKey = Object.keys(item.value)[0];
+        const objValue = item.value[objKey];
+        const objStr = `{ "${objKey}": "${objValue}" }`;
+        const ValueStr = `${tab.slice(1)}${sign}${item.key}: ${objStr}\n`;
+        return `${acc}${ValueStr}`;
       }
-      if (item.status === 'removed') {
-        const oldValueStr = `${tab.slice(1)}  - ${item.key}: ${item.value}\n`;
-        return `${acc}${oldValueStr}`;
+
+      if (item.status === 'added' || item.status === 'removed') {
+        const newValueStr = `${tab.slice(1)}${sign}${item.key}: ${item.value}\n`;
+        return `${acc}${newValueStr}`;
       }
       if (item.status === 'changed') {
         const newValueStr = `${tab.slice(1)}  + ${item.key}: ${item.addedValue}\n`;
@@ -53,14 +59,14 @@ const compare = (preparedDataBefore, preparedDataAfter, acum) => {
         return [...acc, {
           status: 'added',
           key: item,
-          value: JSON.stringify(preparedDataAfter[item]),
+          value: preparedDataAfter[item],
         }];
       }
       if (!preparedDataAfter[item]) {
         return [...acc, {
           status: 'removed',
           key: item,
-          value: JSON.stringify(preparedDataBefore[item]),
+          value: preparedDataBefore[item],
         }];
       }
       return [...acc, {
@@ -88,6 +94,6 @@ export default (pathBefore, pathAfter) => {
   const preparedDataBefore = parser(dataBefore);
   const preparedDataAfter = parser(dataAfter);
   const result = compare(preparedDataBefore, preparedDataAfter, []);
-//  console.log('---result--->', result);
+//  console.log('---result--->', JSON.stringify(result, null, '\t'));
   return arrToStr(result);
 };
