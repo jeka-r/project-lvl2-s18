@@ -4,39 +4,37 @@ import getParser from './parsers';
 import { getFileData, getType } from './filesystem';
 
 const arrToStr = (arr) => {
-  const build = (array, tab) => {
+  const build = (array, level) => {
 //    console.log('---array--->', array);
     const str = array.reduce((acc, item) => {
 //      console.log('---ITEM--->', item);
       if (item.children) {
-        return `${acc}    ${item.key}: {\n${build(item.children, _repeat(tab, 5))}${tab.slice(1)}    }\n`;
+        return `${acc}    ${item.key}: {\n${build(item.children, level + 1)}    ${_repeat(' ', 4 * level)}}\n`;
       }
       const sign = (item.status === 'added') ? '  + ' : '  - ';
 
       if (item.value instanceof Object) {
-        const objKey = Object.keys(item.value)[0];
-        const objValue = item.value[objKey];
-        const objStr = `{ "${objKey}": "${objValue}" }`;
-        const ValueStr = `${tab.slice(1)}${sign}${item.key}: ${objStr}\n`;
+        const objStr = JSON.stringify(item.value, ' ', 4).split('\n').join(`\n${_repeat(' ', 4 * (level + 1))}`);
+        const ValueStr = `${_repeat(' ', 4 * level)}${sign}${item.key}: ${objStr}\n`;
         return `${acc}${ValueStr}`;
       }
 
       if (item.status === 'added' || item.status === 'removed') {
-        const newValueStr = `${tab.slice(1)}${sign}${item.key}: ${item.value}\n`;
+        const newValueStr = `${_repeat(' ', 4 * level)}${sign}${item.key}: ${item.value}\n`;
         return `${acc}${newValueStr}`;
       }
       if (item.status === 'changed') {
-        const newValueStr = `${tab.slice(1)}  + ${item.key}: ${item.addedValue}\n`;
-        const oldValueStr = `${tab.slice(1)}  - ${item.key}: ${item.removedValue}\n`;
+        const newValueStr = `${_repeat(' ', 4 * level)}  + ${item.key}: ${item.addedValue}\n`;
+        const oldValueStr = `${_repeat(' ', 4 * level)}  - ${item.key}: ${item.removedValue}\n`;
         return `${acc}${newValueStr}${oldValueStr}`;
       }
 
-      const valueStr = `${tab.slice(1)}    ${item.key}: ${item.value}\n`;
+      const valueStr = `${_repeat(' ', 4 * level)}    ${item.key}: ${item.value}\n`;
       return `${acc}${valueStr}`;
     }, '');
     return str;
   };
-  return `{\n${build(arr, ' ')}}`;
+  return `{\n${build(arr, 0)}}`;
 };
 
 const compare = (preparedDataBefore, preparedDataAfter, acum) => {
@@ -44,8 +42,6 @@ const compare = (preparedDataBefore, preparedDataAfter, acum) => {
   const keysAfterData = Object.keys(preparedDataAfter);
   const unionKeys = _union(keysBeforeData, keysAfterData);
   const result = unionKeys.reduce((acc, item) => {
-  //  console.log('Bitem--->', item, preparedDataBefore[item]);
-  //  console.log('Aitem--->', item, preparedDataAfter[item]);
     if (preparedDataBefore[item] !== preparedDataAfter[item]) {
       if (preparedDataAfter[item] instanceof Object && preparedDataBefore[item] instanceof Object) {
         return [...acc, {
@@ -94,6 +90,5 @@ export default (pathBefore, pathAfter) => {
   const preparedDataBefore = parser(dataBefore);
   const preparedDataAfter = parser(dataAfter);
   const result = compare(preparedDataBefore, preparedDataAfter, []);
-//  console.log('---result--->', JSON.stringify(result, null, '\t'));
   return arrToStr(result);
 };
