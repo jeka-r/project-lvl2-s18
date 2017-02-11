@@ -3,105 +3,59 @@ import _repeat from 'lodash.repeat';
 import getParser from './parsers';
 import { getFileData, getType } from './filesystem';
 
-const arrToStr = (arr1) => {
-  const b = (arr, tab) => {
-    const str = arr.reduce((acc, item) => {
-      const keys = Object.keys(item);
-      const newAcc = keys.reduce((acum, element) => {
-        if (element === 'status') {
-          const status = item[element];
-          if (status === 'removed') {
-            return `${acum}${tab.slice(1)}  - `;
-          }
-          if (status === 'added') {
-            return `${acum}${tab.slice(1)}  + `;
-          }
-          return `${acum}${tab.slice(1)}    `;
-        }
-        if (element === 'key') {
-          return `${acum}${item[element]}: `;
-        }
-        if (element === 'value' && item[element] instanceof Array) {
-          return `${acum}{\n${b(item[element], _repeat(tab, tab.length + 4))}    ${tab.slice(1)}}`;
-        }
-        return `${acum}${item[element]}`;
-      }, acc);
-      return `${newAcc}\n`;
+const arrToStr = (arr) => {
+  const build = (array, tab) => {
+    const str = array.reduce((acc, item) => {
+//      console.log('---ITEM--->', item);
+      if (item.children) {
+        return `${acc}    ${item.key}: {\n${build(item.children, _repeat(tab, 5))}${tab.slice(1)}    }\n`;
+      }
+
+      if (item.status === 'changed') {
+        const newValueStr = (item.addedValue) ? `${tab.slice(1)}  + ${item.key}: ${item.addedValue}\n` : '';
+        const oldValueStr = (item.removedValue) ? `${tab.slice(1)}  - ${item.key}: ${item.removedValue}\n` : '';
+        return `${acc}${newValueStr}${oldValueStr}`;
+      }
+
+      const valueStr = `${tab.slice(1)}    ${item.key}: ${item.value}\n`;
+      return `${acc}${valueStr}`;
     }, '');
     return str;
   };
-  const a = b(arr1, ' ');
-  return (a.length === 0) ? '{}' : `{\n${a}}`;
+  return `{\n${build(arr, ' ')}}`;
 };
-
-// const replace = (key, value) => {
-//  if (typeof value === 'string') {
-//    console.log('IF---key--->', key);
-//    console.log('IF---value--->', value);
-//    return value;
-//  }
-//  console.log('---key--->', value);
-//  console.log('---value--->', value);
-//  return value.toString();
-// };
 
 const compare = (preparedDataBefore, preparedDataAfter, acum) => {
   const keysBeforeData = Object.keys(preparedDataBefore);
   const keysAfterData = Object.keys(preparedDataAfter);
   const unionKeys = _union(keysBeforeData, keysAfterData);
   const result = unionKeys.reduce((acc, item) => {
-    if (preparedDataBefore[item] instanceof Object && !preparedDataAfter[item]) {
-      return [...acc, {
-        status: 'removed',
-        key: item,
-        value: JSON.stringify(preparedDataBefore[item]),
-      }];
-    }
-    if (preparedDataAfter[item] instanceof Object && !preparedDataBefore[item]) {
-      return [...acc, {
-        status: 'added',
-        key: item,
-        value: JSON.stringify(preparedDataAfter[item]),
-      }];
-    }
-    if (preparedDataAfter[item] instanceof Object && preparedDataBefore[item] instanceof Object) {
-      return [...acc, {
-        status: 'no change',
-        key: item,
-        value: compare(preparedDataBefore[item], preparedDataAfter[item], []),
-      }];
-    }
-    if (!preparedDataAfter[item]) {
-      return [...acc, {
-        status: 'removed',
-        key: item,
-        value: preparedDataBefore[item],
-      }];
-    }
-    if (!preparedDataBefore[item]) {
-      return [...acc, {
-        status: 'added',
-        key: item,
-        value: preparedDataAfter[item],
-      }];
-    }
+  //  console.log('Bitem--->', item, preparedDataBefore[item]);
+  //  console.log('Aitem--->', item, preparedDataAfter[item]);
     if (preparedDataBefore[item] !== preparedDataAfter[item]) {
+      if (preparedDataAfter[item] instanceof Object && preparedDataBefore[item] instanceof Object) {
+        return [...acc, {
+          status: 'no change',
+          key: item,
+          children: compare(preparedDataBefore[item], preparedDataAfter[item], []),
+        }];
+      }
+
       return [...acc, {
-        status: 'added',
+        status: 'changed',
         key: item,
-        value: preparedDataAfter[item],
-      }, {
-        status: 'removed',
-        key: item,
-        value: preparedDataBefore[item],
+        addedValue: preparedDataAfter[item],
+        removedValue: preparedDataBefore[item],
       }];
     }
+
     return [...acc, {
       status: 'no change',
       key: item,
       value: preparedDataBefore[item],
     }];
   }, acum);
+//  console.log('---result--->', result);
   return result;
 };
 
@@ -112,8 +66,6 @@ export default (pathBefore, pathAfter) => {
   const parser = getParser(type);
   const preparedDataBefore = parser(dataBefore);
   const preparedDataAfter = parser(dataAfter);
-  console.log('preparedDataBefore---->', preparedDataBefore);
-
   const result = compare(preparedDataBefore, preparedDataAfter, []);
   return arrToStr(result);
 };
