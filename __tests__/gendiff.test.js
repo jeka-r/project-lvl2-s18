@@ -95,3 +95,45 @@ test('Plain output format of compare of INI recursive format differences', () =>
   const path2 = './__tests__/samplefiles/after-recur.ini';
   expect(genDiff(path1, path2, 'plain')).toBe(plainExpected);
 });
+
+const jsonExpected = `[
+  {
+    "status": "unchanged",
+    "key": "host",
+    "value": "hexlet.io"
+  },
+  {
+    "status": "updated",
+    "key": "timeout",
+    "addedValue": "20",
+    "removedValue": "50"
+  },
+  {
+    "status": "removed",
+    "key": "proxy",
+    "value": "123.234.53.22"
+  },
+  {
+    "status": "added",
+    "key": "verbose",
+    "value": true
+  }
+]`;
+
+test('JSON output format of compare of JSON flat format differences', () => {
+  const path1 = './__tests__/samplefiles/before.json';
+  const path2 = './__tests__/samplefiles/after.json';
+  expect(genDiff(path1, path2, 'json')).toBe(jsonExpected);
+});
+
+test('JSON output format of compare of YAML flat format differences', () => {
+  const path1 = './__tests__/samplefiles/before.yml';
+  const path2 = './__tests__/samplefiles/after.yml';
+  expect(genDiff(path1, path2, 'json')).toBe(jsonExpected);
+});
+
+test('JSON output format of compare of INI flat format differences', () => {
+  const path1 = './__tests__/samplefiles/before.ini';
+  const path2 = './__tests__/samplefiles/after.ini';
+  expect(genDiff(path1, path2, 'json')).toBe(jsonExpected);
+});

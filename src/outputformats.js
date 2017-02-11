@@ -57,12 +57,13 @@ const buildPlain = (tree) => {
 
 const formats = {
   plain: buildPlain,
+  json: JSON.stringify,
   default: build,
 };
 
-export default (type) => {
+export default (data, type) => {
   if (formats[type]) {
-    return formats[type];
+    return (type === 'json') ? formats[type](data, null, 2) : formats[type](data);
   }
-  return formats.default;
+  return formats.default(data);
 };

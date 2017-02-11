@@ -1,9 +1,12 @@
 install: install-deps
 
-runall: runjson runrjson runyml runryml runini runrjini runrjsonf
+runall: runjson runrjson runyml runryml runini runrjini runrjsonp
 
-runrjsonf:
+runrjsonp:
 			npm run babel-node -- src/bin/gendiff.js --format plain __tests__/samplefiles/before-recur.json __tests__/samplefiles/after-recur.json
+
+runrjsonj:
+			npm run babel-node -- src/bin/gendiff.js --format json __tests__/samplefiles/before.json __tests__/samplefiles/after.json
 
 runjson:
 	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.json __tests__/samplefiles/after.json
