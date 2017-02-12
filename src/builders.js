@@ -66,15 +66,17 @@ const buildPlain = (tree) => {
   return iter(tree, '').join('\n');
 };
 
+const buildJson = data => JSON.stringify(data, null, 2);
+
 const formats = {
   plain: buildPlain,
-  json: JSON.stringify,
+  json: buildJson,
   default: build,
 };
 
-export default (data, type) => {
+export default (type) => {
   if (formats[type]) {
-    return (type === 'json') ? formats[type](data, null, 2) : formats[type](data);
+    return formats[type];
   }
-  return formats.default(data);
+  return formats.default;
 };

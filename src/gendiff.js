@@ -1,6 +1,6 @@
 import _union from 'lodash.union';
 import getParser from './parsers';
-import getFormatedData from './outputformats';
+import getBuilder from './builders';
 import { getFileData, getType } from './filesystem';
 
 const compare = (preparedDataBefore, preparedDataAfter, acum) => {
@@ -65,6 +65,7 @@ export default (pathBefore, pathAfter, outputFormat) => {
   const preparedDataBefore = parser(dataBefore);
   const preparedDataAfter = parser(dataAfter);
   const comaparedData = compare(preparedDataBefore, preparedDataAfter, []);
-  const result = getFormatedData(comaparedData, outputFormat);
+  const builder = getBuilder(outputFormat);
+  const result = builder(comaparedData);
   return result;
 };
