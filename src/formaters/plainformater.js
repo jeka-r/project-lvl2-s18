@@ -1,21 +1,22 @@
 export default (tree) => {
   const iter = (array, parent) => {
     const str = array.reduce((acc, item) => {
-      const dotParent = (parent) ? `${parent}.` : '';
       if (item.children.length > 0) {
         return [...acc, `${iter(item.children, item.key).join('\n')}`];
       }
+      const dotParent = (parent) ? `${parent}.` : '';
+      const generalString = `Property '${dotParent}${item.key}' was ${item.status}`;
       if (item.status === 'removed') {
-        return [...acc, `Property '${dotParent}${item.key}' was ${item.status}`];
+        return [...acc, `${generalString}`];
       }
       if (item.newValue instanceof Object) {
-        return [...acc, `Property '${dotParent}${item.key}' was ${item.status} with complex value`];
+        return [...acc, `${generalString} with complex value`];
       }
       if (item.status === 'added') {
-        return [...acc, `Property '${dotParent}${item.key}' was ${item.status} with value: ${item.newValue}`];
+        return [...acc, `${generalString} with value: ${item.newValue}`];
       }
       if (item.status === 'updated') {
-        return [...acc, `Property '${dotParent}${item.key}' was ${item.status}. From '${item.oldValue}' to '${item.newValue}'`];
+        return [...acc, `${generalString}. From '${item.oldValue}' to '${item.newValue}'`];
       }
       return acc;
     }, []);
