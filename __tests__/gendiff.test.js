@@ -100,23 +100,30 @@ const jsonExpected = `[
   {
     "status": "unchanged",
     "key": "host",
-    "value": "hexlet.io"
+    "newValue": null,
+    "oldValue": "hexlet.io",
+    "children": []
   },
   {
     "status": "updated",
     "key": "timeout",
-    "addedValue": "20",
-    "removedValue": "50"
+    "newValue": "20",
+    "oldValue": "50",
+    "children": []
   },
   {
     "status": "removed",
     "key": "proxy",
-    "value": "123.234.53.22"
+    "newValue": null,
+    "oldValue": "123.234.53.22",
+    "children": []
   },
   {
     "status": "added",
     "key": "verbose",
-    "value": true
+    "newValue": true,
+    "oldValue": null,
+    "children": []
   }
 ]`;
 

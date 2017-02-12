@@ -13,6 +13,8 @@ const compare = (preparedDataBefore, preparedDataAfter, acum) => {
         return [...acc, {
           status: 'unchanged',
           key: item,
+          newValue: null,
+          oldValue: null,
           children: compare(preparedDataBefore[item], preparedDataAfter[item], []),
         }];
       }
@@ -21,28 +23,35 @@ const compare = (preparedDataBefore, preparedDataAfter, acum) => {
         return [...acc, {
           status: 'added',
           key: item,
-          value: preparedDataAfter[item],
+          newValue: preparedDataAfter[item],
+          oldValue: null,
+          children: [],
         }];
       }
       if (!preparedDataAfter[item]) {
         return [...acc, {
           status: 'removed',
           key: item,
-          value: preparedDataBefore[item],
+          newValue: null,
+          oldValue: preparedDataBefore[item],
+          children: [],
         }];
       }
       return [...acc, {
         status: 'updated',
         key: item,
-        addedValue: preparedDataAfter[item],
-        removedValue: preparedDataBefore[item],
+        newValue: preparedDataAfter[item],
+        oldValue: preparedDataBefore[item],
+        children: [],
       }];
     }
 
     return [...acc, {
       status: 'unchanged',
       key: item,
-      value: preparedDataBefore[item],
+      newValue: null,
+      oldValue: preparedDataBefore[item],
+      children: [],
     }];
   }, acum);
   return result;
