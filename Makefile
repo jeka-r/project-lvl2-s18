@@ -3,28 +3,28 @@ install: install-deps
 runall: runjson runrjson runyml runryml runini runrjini runrjsonp
 
 runrjsonp:
-			npm run babel-node -- src/bin/gendiff.js --format plain __tests__/samplefiles/before-recur.json __tests__/samplefiles/after-recur.json
+	npm run babel-node -- src/bin/gendiff.js --format plain __tests__/samplefiles/before-recur.json __tests__/samplefiles/after-recur.json
 
 runrjsonj:
-			npm run babel-node -- src/bin/gendiff.js --format json __tests__/samplefiles/before.json __tests__/samplefiles/after.json
+	npm run babel-node -- src/bin/gendiff.js --format json __tests__/samplefiles/before.json __tests__/samplefiles/after.json
 
 runjson:
 	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.json __tests__/samplefiles/after.json
 
 runrjson:
-		npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.json __tests__/samplefiles/after-recur.json
+	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.json __tests__/samplefiles/after-recur.json
 
 runyml:
-		npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.yml __tests__/samplefiles/after.yml
+	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.yml __tests__/samplefiles/after.yml
 
 runryml:
-		npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.yml __tests__/samplefiles/after-recur.yml
+	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.yml __tests__/samplefiles/after-recur.yml
 
 runini:
-		npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.ini __tests__/samplefiles/after.ini
+	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before.ini __tests__/samplefiles/after.ini
 
 runrjini:
-		npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.ini __tests__/samplefiles/after-recur.ini
+	npm run babel-node -- src/bin/gendiff.js __tests__/samplefiles/before-recur.ini __tests__/samplefiles/after-recur.ini
 
 run-h:
 	npm run babel-node -- src/bin/gendiff.js -h

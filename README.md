@@ -13,7 +13,7 @@ install
 > $ sudo npm install -g project-lvl2-s18
 
 usage
-> gendiff [options] <first_config> <second_config>
+> gendiff [options] first_config second_config
 
 help
 > gendiff --help
@@ -21,7 +21,7 @@ help
 currently available three output formats (default, plain, json)
 
 default format
-> gendiff <first_config> <second_config>
+> gendiff first_config second_config
 
 result will be like
 ```
@@ -35,7 +35,7 @@ result will be like
 ```
 
 plain format
-> gendiff -f plain <first_config> <second_config>
+> gendiff -f plain first_config second_config
 
 result will be like
 ```
@@ -48,7 +48,7 @@ Property 'group2' was removed
 Property 'group3' was added with complex value
 ```
 json format
-> gendiff -f json <first_config> <second_config>
+> gendiff -f json first_config second_config
 
 result will be like
 ```
